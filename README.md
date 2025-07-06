@@ -1,4 +1,4 @@
-# Análise de Churn de Cartão de Crédito - Hashtag Programação
+# Análise de Churn de Cartões de Crédito: Prevenindo o Cancelamento de Clientes
 
 ## Contexto do Projeto
 
