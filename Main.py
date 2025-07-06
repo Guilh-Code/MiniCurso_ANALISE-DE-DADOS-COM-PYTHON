@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 
 # Lê o CSV com encoding latin1
-tabela = pd.read_csv("Projeto/ClientesBanco.csv", encoding="latin1")
+tabela = pd.read_csv("ClientesBanco.csv", encoding="latin1")
 
 # Remove colunas e valores ausentes
 tabela = tabela.drop("CLIENTNUM", axis=1) # Drop -> deleta colunas ou linhas (axis = 0 - para linha / axis = 1 - para coluna)
@@ -39,19 +39,20 @@ print("-="*25)
 pasta = "graficos"
 os.makedirs(pasta, exist_ok=True)
 
-# Loop pelas colunas numéricas da tabela
-for coluna in tabela.select_dtypes(include='number').columns:
-    plt.figure(figsize=(10, 6))
-    sns.histplot(data=tabela, x=coluna, hue="Categoria", bins=20, palette="Set2")
-    
-    # Título e rótulos dinâmicos
-    plt.title(f"Distribuição de {coluna} por Categoria de Cliente")
-    plt.xlabel(coluna)
-    plt.ylabel("Quantidade")
-    
-    plt.tight_layout()
-    
-    # Caminho e nome do arquivo
-    caminho_arquivo = os.path.join(pasta, f"{coluna}_distribuicao.jpg")
-    plt.savefig(caminho_arquivo, format='jpg', dpi=300)  # Salva com alta resolução
-    
+# Loop por todas as colunas
+for coluna in tabela.columns:
+    try:
+        plt.figure(figsize=(10, 6))
+        sns.histplot(data=tabela, x=coluna, hue="Categoria", bins=20, palette="Set2")
+        
+        plt.title(f"Distribuição de {coluna} por Categoria de Cliente")
+        plt.xlabel(coluna)
+        plt.ylabel("Quantidade")
+        plt.tight_layout()
+        
+        # Salvar imagem
+        caminho_arquivo = os.path.join(pasta, f"{coluna}_distribuicao.jpg")
+        plt.savefig(caminho_arquivo, format='jpg', dpi=300)
+        plt.close()  # Fecha a figura para não sobrecarregar a memória
+    except Exception as e:
+        print(f"Erro ao processar a coluna {coluna}: {e}")
